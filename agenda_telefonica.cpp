@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include <cctype>
+#include <algorithm>
 using namespace std;
 
 bool validacao_nome(string nome)
@@ -10,7 +11,7 @@ bool validacao_nome(string nome)
    {
       char letra = nome[i];
 
-      if(!isalpha(letra))
+      if(!isalpha(letra) && letra != ' ')
       {
          cout << "\nNome inválido. Por favor, digite somente letras.\n";
          return false;
@@ -148,7 +149,9 @@ int main()
       {
          string nome, numero;
          cout << "Informe o nome do contato: ";
-         cin >> nome;
+         cin.ignore();
+         getline(cin, nome);
+         transform(nome.begin(), nome.end(), nome.begin(), [](unsigned char c){return tolower(c);});
          bool validacao = validacao_nome(nome);
          if(validacao == false)
            break;
@@ -177,7 +180,9 @@ int main()
       {
          string nome;
          cout << "Informe o nome do contato: ";
-         cin >> nome;
+         cin.ignore();
+         getline(cin, nome);
+         transform(nome.begin(), nome.end(), nome.begin(), [](unsigned char c){return tolower(c);});
          bool validacao = validacao_nome(nome);
          if(validacao == false)
            break;
@@ -203,15 +208,11 @@ int main()
            }
       }
 
-      case 5:
+      default:
       {
        cout << "Programa encerrado.\n";
        return 0;
       }
-
-      default:
-        cout << "Opção inválida. Por favor, selecione uma opção válida.\n";
-        break;
    }
 }
 }
